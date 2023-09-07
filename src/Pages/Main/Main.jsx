@@ -48,7 +48,7 @@ const Main = () => {
 
     }
     effect()
-  }, [])
+  }, [db])
 
   return (
     <div className='main'>
