@@ -1,9 +1,11 @@
 import HeaderComponent from "./Components/Header/HeaderComponent";
 import AppRouter from "./routes/AppRoute";
-import './styles/style.scss'
 import {getFirestore} from "firebase/firestore";
 import {initializeApp} from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import './styles/style.scss'
+import {FireBaseContextProvider} from "./FirebaseContext";
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyCm4mCVDEl3bZxNOw_7Ra-WHR9m24HUYrE",
   authDomain: "high-comfort-350011.firebaseapp.com",
@@ -18,18 +20,19 @@ const app = initializeApp(firebaseConfig);
 
 
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
 
 function App() {
 
-  console.log(db)
+
   return (
-    <div className="app" data-theme='dark' id="app">
-      <HeaderComponent/>
-      <main className="app__main">
-        <AppRouter/>
-      </main>
-    </div>
+    <FireBaseContextProvider db={db}>
+      <div className="app" data-theme='dark' id="app">
+        <HeaderComponent/>
+        <main className="app__main">
+          <AppRouter/>
+        </main>
+      </div>
+    </FireBaseContextProvider>
   );
 }
 

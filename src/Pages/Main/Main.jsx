@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Table} from "antd";
 import {Link} from "react-router-dom";
+import {collection, getDocs} from "firebase/firestore";
 import './styles.scss'
+import {FireBaseContext} from "../../FirebaseContext";
 
 const columns = [
   {
@@ -27,38 +29,31 @@ const columns = [
   }
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    address: 98,
-    phone: '0550117417',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    address: 98,
-    phone: '0550117417',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    address: 98,
-    phone: '0550117417',
-  },
-  {
-    key: '4',
-    name: 'Jim Red',
-    address: 98,
-    phone: '0550117417',
-  },
-];
-
 const Main = () => {
+  const [users, setUsers] = useState([])
+
+  const {db} = useContext(FireBaseContext)
+
+  useEffect(() => {
+    const effect = async () => {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      const fireUsers = []
+
+      querySnapshot.forEach((doc) => {
+        fireUsers.push(doc.data())
+      });
+
+
+      setUsers(fireUsers)
+
+    }
+    effect()
+  }, [])
+
   return (
     <div className='main'>
       <h3>Список Юзеров</h3>
-      <Table dataSource={data} columns={columns}/>
+      <Table dataSource={users} columns={columns} rowKey={'name'}/>
     </div>
   );
 };
