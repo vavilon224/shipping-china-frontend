@@ -2,3 +2,17 @@
 
 @import "./global/variables.scss";
 @import "./global/global.scss";
+
+
+.ant-table-cell {
+  background: var(--main-scheme-color-primary) !important;
+  color: var(--main-scheme-color-text) !important;
+
+
+  a {
+    color: #ffffff !important;
+  }
+}
+
+
+
